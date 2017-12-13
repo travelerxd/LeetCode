@@ -15,10 +15,14 @@ class Solution {
 public:
 	vector<int> twoSum(vector<int>& nums, int target); // 1. twoSum
 	ListNode* addTwoNumbers(ListNode* l1, ListNode* l2); // 2. add two numbers
+	int lengthOfLongestSubstring(string s);     // 3. Longese Substring Without Repeating Characters
 };
 
 
-vector<int> Solution::twoSum(vector<int>& nums, int target){ // 1. twoSum
+
+
+// 1. twoSum
+vector<int> Solution::twoSum(vector<int>& nums, int target){
 	vector<int> indices;
 	unordered_map<int, int> hashArray;
 	for(int i = 0; i < nums.size(); i++)
@@ -33,7 +37,9 @@ vector<int> Solution::twoSum(vector<int>& nums, int target){ // 1. twoSum
 	}
 }
 
-ListNode* addTwoNumbers(ListNode* l1, ListNode* l2){  // 2. add two numbers
+
+// 2. add two numbers
+ListNode* Solution::addTwoNumbers(ListNode* l1, ListNode* l2){  
 	ListNode* sumList = new ListNode(0);
 	ListNode* p = sumList;
 	int carry = 0;
@@ -46,6 +52,30 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2){  // 2. add two numbers
 	p = p->next;
 	}
 	return sumList->next;
+}
+
+// 3. Longest Substring Without Repeating characters. 
+//    this is my solution. time cost is O(n2) and is a time costing solution
+//    need other solution 
+int Solution::lengthOfLongestSubstring(string s){ 
+	int length = 0;
+	if(s.size() == 0){
+		return length;
+	}
+	unordered_set<char> substring;
+	for(int i = 0; i < s.size(); i++){
+		substring.insert(s[i]);
+		for(int j = i + 1; j < s.size(); j++){
+			if(substring.find(s[j]) != substring.end()){
+				length = length > substring.size()?length:substring.size();
+				substring.clear();
+				break;
+			}
+			substring.insert(s[j]);
+		}
+		length = length > substring.size()?length:substring.size();
+	}
+	return length;
 }
 
 int main()
