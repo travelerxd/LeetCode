@@ -11,18 +11,17 @@ public:
 
 
 vector<int> Solution::twoSum(vector<int>& nums, int target){
-	vector<int> result;
-	unordered_map<int, int> myHash;
+	vector<int> indices;
+	unordered_map<int, int> hashArray;
 	for(int i = 0; i < nums.size(); i++)
 	{
-		int myTarget = target - nums[i];
-		if(myHash.find(myTarget) != myHash.end())
+		if(hashArray.find(target - nums[i]) != hashArray.end())
 		{
-			result.push_back(myHash[myTarget]);
-			result.push_back(i);
-			return result;
+			indices.push_back(hashArray[target - nums[i]]);
+			indices.push_back(i);
+			return indices;
 		}
-		myHash[nums[i]] = i;
+		hashArray[nums[i]] = i;
 	}
 }
 
@@ -30,6 +29,16 @@ vector<int> Solution::twoSum(vector<int>& nums, int target){
 int main()
 {
 	cout << "hello, world!" << endl;
+	vector<int> a;
+	a.push_back(2);
+	a.push_back(3);
+	a.push_back(4);
+	int target = 6;
+
+	Solution mySolution;
+	vector<int> indices = mySolution.twoSum(a, target);
+	for(auto x:indices)
+		cout << x << endl; 
 	return 0;
 }
 
