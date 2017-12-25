@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <string>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ public:
 	vector<int> twoSum(vector<int>& nums, int target); // 1. twoSum
 	ListNode* addTwoNumbers(ListNode* l1, ListNode* l2); // 2. add two numbers
 	int lengthOfLongestSubstring(string s);     // 3. Longese Substring Without Repeating Characters
+	string longestPalindrome(string s); // 5. Longest Palindromic Substring
+	string convert(string s, int numRows); // 6. ZigZag Conversion
 };
 
 
@@ -76,6 +79,54 @@ int Solution::lengthOfLongestSubstring(string s){
 		length = length > substring.size()?length:substring.size();
 	}
 	return length;
+}
+
+
+// 5. Longest Palindromic Substring
+string Solution::longestPalindrome(string s){
+	if(s.empty())
+            return "";
+        if(s.size() == 1)
+            return s;
+        int min_start = 0, max_len = 1;
+        for(int i = 0; i < s.size();){
+            if(s.size() - i <= max_len / 2){  // 相当于把这个子串分成了两个部分，通过前后部分做比来判断是否是回文，i为中间的那个字符
+                break;
+            }
+            int j = i, k = i;
+            while(k < s.size() - 1 && s[k+1] == s[k]){ // 重复的字符
+                ++k;
+            }
+            i = k + 1;
+            while(k < s.size() - 1 && j > 0 && s[k+1] == s[j-1]){ // 从i这个位置开始向两边对比，若两边的值相等，那么再对比下一个位置的值
+                ++k;
+                --j;
+            }
+            int new_len = k - j + 1;
+            if(new_len > max_len){
+                max_len = new_len;
+                min_start = j;
+            }
+        }
+        return s.substr(min_start, max_len);
+}
+
+// 6. ZigZag Conversion
+string Solution::convert(string s, int numRows){
+if(s.empty())
+            return "";
+        if(numRows == 1)
+            return s;
+        string line;
+        int base = (numRows - 2)*2 + 2;
+        for(int i = 0; i < base; i++){
+            int k = 0;
+            while(k*base < s.size()){
+                line.push_back(i + k*base);
+                k++;
+            }
+        }
+        return line;
 }
 
 int main()
