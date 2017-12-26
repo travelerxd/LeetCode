@@ -113,20 +113,32 @@ string Solution::longestPalindrome(string s){
 
 // 6. ZigZag Conversion
 string Solution::convert(string s, int numRows){
-if(s.empty())
+	if(s.empty())
             return "";
         if(numRows == 1)
             return s;
         string line;
         int base = (numRows - 2)*2 + 2;
-        for(int i = 0; i < base; i++){
+        for(int i = 0; i < numRows; i++){
             int k = 0;
-            while(k*base < s.size()){
-                line.push_back(i + k*base);
-                k++;
+            if(i == 0 || i == numRows - 1){
+                while((i + k*base) < s.size()){
+                    line.push_back(s[i + k*base]);
+                    k++;
+                }
+            }
+            else{
+                while((i+k*base) < s.size()){
+                    line.push_back(s[i+k*base]);
+                    if((k+1)*base - i < s.size()){
+                        line.push_back(s[(k+1)*base - i]);
+                    }
+                    k++;
+                }
             }
         }
         return line;
+
 }
 
 int main()
